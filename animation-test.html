@@ -1,0 +1,107 @@
+<head>
+    <style>
+        .transform-perc {
+            transition: transform 1s linear;
+            border: 2px solid blue;
+            height: 100px;
+            width: 100px;
+            transform: translate(0, 0);
+        }
+
+        .transform-perc.perc {
+            transform: translate(50%, 50%);
+        }
+
+        .transform-abs {
+            transition: transform 1s linear;
+            border: 2px solid red;
+            height: 100px;
+            width: 100px;
+            transform: translate(0, 0);
+        }
+
+        .transform-abs.abs {
+            transform: translate(100px, 100px);
+        }
+
+        .key-frame {
+            border: 2px solid blue;
+            height: 100px;
+            width: 100px;
+            animation: box 1s infinite;
+        }
+
+        @keyframes box {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 100px); }
+        }
+
+        .opacity {
+            transition: opacity 1s linear;
+            background-color: green;
+            height: 100px;
+            width: 100px;
+            opacity: 1;
+        }
+
+        .opacity.hidden {
+            opacity: 0;
+        }
+
+        .interrapted {
+            transition: transform 1s linear;
+            border: 2px solid red;
+            height: 100px;
+            width: 100px;
+            transform: translate(0, 0);
+        }
+
+        .interrapted.moved {
+            transform: translate(100px, 100px);
+        }
+    </style>
+</head>
+<body>
+    <div class="transform-perc">transform perc</div>
+    <div class="transform-abs">transform abs</div>
+    <div class="key-frame">key frame</div>
+    <div class="opacity">opacity</div>
+    <div class="interrapted">interrapted</div>
+    <script>
+        var transformEl = document.querySelector('.transform-perc');
+        setInterval(function() {
+          if (transformEl.classList.contains('perc')) {
+            transformEl.classList.remove('perc');
+          } else {
+            transformEl.classList.add('perc');
+          }
+        }, 1000);
+
+        var transformAbsEl = document.querySelector('.transform-abs');
+        setInterval(function() {
+          if (transformAbsEl.classList.contains('abs')) {
+            transformAbsEl.classList.remove('abs');
+          } else {
+            transformAbsEl.classList.add('abs');
+          }
+        }, 1000);
+
+        var opacityEl = document.querySelector('.opacity');
+        setInterval(function() {
+          if (opacityEl.classList.contains('hidden')) {
+            opacityEl.classList.remove('hidden');
+          } else {
+            opacityEl.classList.add('hidden');
+          }
+        }, 1000);
+
+        var interaptedEl = document.querySelector('.interrapted');
+        setInterval(function() {
+          if (interaptedEl.classList.contains('moved')) {
+            interaptedEl.classList.remove('moved');
+          } else {
+            interaptedEl.classList.add('moved');
+          }
+        }, 500);
+    </script>
+</body>
