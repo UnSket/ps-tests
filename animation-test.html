@@ -60,7 +60,7 @@
         }
 
         .interrapted.moved {
-            transform: translate(100px, 100px);
+            transform: translate(100%, 100%);
         }
 
         .request-animation-frame {
@@ -118,7 +118,7 @@
         function animate(duration) {
           var durationPerc = duration % 1000;
 
-          RAFEl.style = 'transform: translate(' + (durationPerc / 10) + 'px, ' + (durationPerc / 10) + 'px);';
+          RAFEl.style.transform = 'translate(' + (durationPerc / 10) + 'px, ' + (durationPerc / 10) + 'px)';
 
           window.requestAnimationFrame(animate);
         }
