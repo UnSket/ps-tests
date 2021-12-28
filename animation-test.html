@@ -9,7 +9,7 @@
         }
 
         .transform-perc.perc {
-            transform: translate(50%, 50%);
+            transform: translate(100%, 100%);
         }
 
         .transform-abs {
@@ -59,6 +59,12 @@
         .interrapted.moved {
             transform: translate(100px, 100px);
         }
+
+        .request-animation-frame {
+            border: 2px solid purple;
+            height: 100px;
+            width: 100px;
+        }
     </style>
 </head>
 <body>
@@ -67,6 +73,7 @@
     <div class="key-frame">key frame</div>
     <div class="opacity">opacity</div>
     <div class="interrapted">interrapted</div>
+    <div class="request-animation-frame">request animation frame</div>
     <script>
         var transformEl = document.querySelector('.transform-perc');
         setInterval(function() {
@@ -103,5 +110,18 @@
             interaptedEl.classList.add('moved');
           }
         }, 500);
+
+        var RAFEl = document.querySelector('.request-animation-frame');
+        var pos = 0;
+        var startTime = Date.now();
+        function animate(duration) {
+          var durationPerc = duration % 1000;
+
+          RAFEl.style = 'transform: translate(' + (durationPerc / 10) + 'px, ' + + (durationPerc / 10) + 'px);';
+
+          window.requestAnimationFrame(animate);
+        }
+
+        window.requestAnimationFrame(animate);
     </script>
 </body>
