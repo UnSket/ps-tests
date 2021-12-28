@@ -1,5 +1,8 @@
 <head>
     <style>
+        .root {
+            background-color: white;
+        }
         .transform-perc {
             transition: transform 1s linear;
             border: 2px solid blue;
@@ -67,7 +70,7 @@
         }
     </style>
 </head>
-<body>
+<body class="root">
     <div class="transform-perc">transform perc</div>
     <div class="transform-abs">transform abs</div>
     <div class="key-frame">key frame</div>
@@ -112,12 +115,10 @@
         }, 500);
 
         var RAFEl = document.querySelector('.request-animation-frame');
-        var pos = 0;
-        var startTime = Date.now();
         function animate(duration) {
           var durationPerc = duration % 1000;
 
-          RAFEl.style = 'transform: translate(' + (durationPerc / 10) + 'px, ' + + (durationPerc / 10) + 'px);';
+          RAFEl.style = 'transform: translate(' + (durationPerc / 10) + 'px, ' + (durationPerc / 10) + 'px);';
 
           window.requestAnimationFrame(animate);
         }
