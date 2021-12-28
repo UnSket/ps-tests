@@ -123,15 +123,15 @@
         }, 1000);
 
         var interaptedEls = document.querySelectorAll('.interrapted');
-        interaptedEls.forEach(function(interaptedEl) {
-          setInterval(function() {
-            if (interaptedEl.classList.contains('moved')) {
-              interaptedEl.classList.remove('moved');
-            } else {
-              interaptedEl.classList.add('moved');
-            }
-          }, 500);
-        });
+        for (var i = 0; i < interaptedEls.length; i++) {
+            setInterval(function (interaptedEl) {
+              if (interaptedEl.classList.contains('moved')) {
+                interaptedEl.classList.remove('moved');
+              } else {
+                interaptedEl.classList.add('moved');
+              }
+            }, 300 + Math.random() * 1000, interaptedEls[i]);
+        }
 
         var RAFEl = document.querySelector('.request-animation-frame');
         function animate(duration) {
