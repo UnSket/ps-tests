@@ -1,0 +1,70 @@
+<head>
+    <style>
+        .root {
+            background-color: white;
+        }
+
+        .interrapted {
+            position: absolute;
+            left: 0;
+            right: 0;
+            transition: transform 1s linear;
+            border: 2px solid red;
+            height: 5000px;
+            width: 5000px;
+            transform: translate(0, 0);
+        }
+
+        .interrapted.moved {
+            transform: translate(100%, 100%);
+        }
+
+    </style>
+</head>
+<body class="root">
+
+    <script>
+        function addAnimatedElements(count) {
+          for (var i = 0;i < count; i++) {
+            const element = document.createElement('div');
+            element.classList.add('interrapted')
+            document.body.appendChild(element);
+
+              setInterval(function (element) {
+                if (element.classList.contains('moved')) {
+                  element.classList.remove('moved');
+                } else {
+                  element.classList.add('moved');
+                }
+              }, 300 + Math.random() * 1000, element);
+            }
+        }
+
+        window.addAnimatedElements = addAnimatedElements;
+
+        var objectStore = {};
+        var enourmousString = '';
+        var fullSize = {
+          objectSize: 0,
+          stringSize: 0
+        };
+
+        function objectLeak(size) {
+          if (size > 10) {
+            for (var i = 0; i < size / 10; i++) {
+              objectStore[Date.now() + Math.random()] = '1'.repeat(i * 10 * 512 * 1024);
+            }
+            objectStore[Date.now() + Math.random()] = '1'.repeat((size % 10) * 512 * 1024);
+          }
+          fullSize.objectSize += size;
+          console.log(fullSize);
+        }
+        window.objectLeak = objectLeak;
+
+        function stringLeak(size) {
+          enourmousString += '1'.repeat(size * 512 * 1024);
+          fullSize.stringSize += size;
+        }
+        window.stringLeak = stringLeak;
+    </script>
+</body>
