@@ -76,6 +76,23 @@
     <div class="key-frame">key frame</div>
     <div class="opacity">opacity</div>
     <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
+    <div class="interrapted">interrapted</div>
     <div class="request-animation-frame">request animation frame</div>
     <script>
         var transformEl = document.querySelector('.transform-perc');
@@ -105,14 +122,16 @@
           }
         }, 1000);
 
-        var interaptedEl = document.querySelector('.interrapted');
-        setInterval(function() {
-          if (interaptedEl.classList.contains('moved')) {
-            interaptedEl.classList.remove('moved');
-          } else {
-            interaptedEl.classList.add('moved');
-          }
-        }, 500);
+        var interaptedEls = document.querySelectorAll('.interrapted');
+        interaptedEls.forEach(function(interaptedEl) {
+          setInterval(function() {
+            if (interaptedEl.classList.contains('moved')) {
+              interaptedEl.classList.remove('moved');
+            } else {
+              interaptedEl.classList.add('moved');
+            }
+          }, 500);
+        });
 
         var RAFEl = document.querySelector('.request-animation-frame');
         function animate(duration) {
