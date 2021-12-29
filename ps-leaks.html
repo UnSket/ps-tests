@@ -53,12 +53,13 @@
 
         function addRAFAnimatedElements(count) {
           for (var i = 0; i < count; i++) {
-            const element = document.createElement('div');
+            var element = document.createElement('div');
             element.classList.add('raf')
             document.body.appendChild(element);
-            const asyncOffset = Math.floor(Math.random() * 500);
+            var asyncOffset = Math.floor(Math.random() * 500);
 
-            function animate(duration) {
+            (function(element, asyncOffset) {
+              function animate(duration) {
               var durationPerc = (duration + asyncOffset) % 1000;
 
               element.style.transform = 'translate(' + (durationPerc) + 'px, ' + (durationPerc) + 'px)';
@@ -67,6 +68,7 @@
             }
 
             window.requestAnimationFrame(animate);
+          })(element, asyncOffset)
           }
         }
 
@@ -94,6 +96,7 @@
         function stringLeak(size) {
           enourmousString += '1'.repeat(size * 512 * 1024);
           fullSize.stringSize += size;
+          console.log(fullSize);
         }
         window.stringLeak = stringLeak;
     </script>
