@@ -17,19 +17,24 @@
             position: absolute;
             left: 0;
             right: 0;
-            transition: transform 1s linear;
+            transition: transform 1s linear, opacity 1s linear;
             border: 2px solid red;
             height: 5000px;
             width: 5000px;
             transform: translate(0, 0);
         }
 
-        .interrapted.moved {
+        .interrapted.perc {
             transform: translate(100%, 100%);
         }
 
         .interrapted.abs {
             transform: translate(100px, 100px);
+        }
+
+        .interrapted.opacity {
+            opacity: 0;
+            background-color: aqua;
         }
 
     </style>
@@ -38,14 +43,13 @@
 
     <script>
         var intervals = [];
-        function addAnimatedElements(count, isAbs) {
+        function addAnimatedElements(count, classname) {
           for (var i = 0;i < count; i++) {
             const element = document.createElement('div');
             element.classList.add('interrapted')
             document.body.appendChild(element);
 
               var id = setInterval(function (element) {
-                var classname = isAbs ? 'abs' : 'moved';
                 if (element.classList.contains(classname)) {
                   element.classList.remove(classname);
                 } else {
@@ -57,13 +61,13 @@
         }
 
         window.addAnimatedElements = addAnimatedElements;
-        
+
         function stopAnimation() {
           intervals.forEach(function(intervalId) {
             window.clearInterval(intervalId);
           })
         }
-        
+
         window.stopAnimation = stopAnimation;
 
         function addRAFAnimatedElements(count) {
