@@ -4,6 +4,15 @@
             background-color: white;
         }
 
+        .raf {
+            position: absolute;
+            left: 0;
+            right: 0;
+            border: 2px solid blue;
+            height: 5000px;
+            width: 5000px;
+        }
+
         .interrapted {
             position: absolute;
             left: 0;
@@ -41,6 +50,27 @@
         }
 
         window.addAnimatedElements = addAnimatedElements;
+
+        function addRAFAnimatedElements(count) {
+          for (var i = 0; i < count; i++) {
+            const element = document.createElement('div');
+            element.classList.add('raf')
+            document.body.appendChild(element);
+            const asyncOffset = Math.floor(Math.random() * 500);
+
+            function animate(duration) {
+              var durationPerc = (duration + asyncOffset) % 1000;
+
+              element.style.transform = 'translate(' + (durationPerc) + 'px, ' + (durationPerc) + 'px)';
+
+              window.requestAnimationFrame(animate);
+            }
+
+            window.requestAnimationFrame(animate);
+          }
+        }
+
+        window.addRAFAnimatedElements = addRAFAnimatedElements;
 
         var objectStore = {};
         var enourmousString = '';
