@@ -28,28 +28,43 @@
             transform: translate(100%, 100%);
         }
 
+        .interrapted.abs {
+            transform: translate(100px, 100px);
+        }
+
     </style>
 </head>
 <body class="root">
 
     <script>
-        function addAnimatedElements(count) {
+        var intervals = [];
+        function addAnimatedElements(count, isAbs) {
           for (var i = 0;i < count; i++) {
             const element = document.createElement('div');
             element.classList.add('interrapted')
             document.body.appendChild(element);
 
-              setInterval(function (element) {
-                if (element.classList.contains('moved')) {
-                  element.classList.remove('moved');
+              var id = setInterval(function (element) {
+                var classname = isAbs ? 'abs' : 'moved';
+                if (element.classList.contains(classname)) {
+                  element.classList.remove(classname);
                 } else {
-                  element.classList.add('moved');
+                  element.classList.add(classname);
                 }
               }, 300 + Math.random() * 1000, element);
+              intervals.push(id);
             }
         }
 
         window.addAnimatedElements = addAnimatedElements;
+        
+        function stopAnimation() {
+          intervals.forEach(function(intervalId) {
+            window.clearInterval(intervalId);
+          })
+        }
+        
+        window.stopAnimation = stopAnimation;
 
         function addRAFAnimatedElements(count) {
           for (var i = 0; i < count; i++) {
