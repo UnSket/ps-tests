@@ -1,0 +1,95 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas-layout" width="1000" height="1000"></canvas>
+    <script>
+      var cansvasEl = document.querySelector('#canvas-layout');
+      var ctx = cansvasEl.getContext("2d");
+      var size = 20;
+      var items = [];
+      var startTime = Date.now();
+      var drawCount = 0;
+      var rps = 0;
+
+      function render() {
+        console.log(items.length);
+        itemCreator();
+        updateItems();
+        drawItems();
+        averageRps();
+      }
+
+      function averageRps() {
+        drawCount++;
+        rps = Math.floor(drawCount / ((Date.now() - startTime) / 1000));
+      }
+
+      function drawItems() {
+        ctx.clearRect(0, 0, cansvasEl.width, cansvasEl.height);
+        items.forEach(function(item) {
+          ctx.beginPath();
+          ctx.rect(item.x, item.y, size, size);
+          ctx.fillStyle = "#5286cf";
+          ctx.fill();
+          ctx.closePath();
+        })
+
+        ctx.beginPath();
+        ctx.font = "bold 16px Arial";
+        ctx.fillText('RPS:' + rps, 10, 20);
+        ctx.closePath();
+
+      }
+
+      function itemCreator() {
+        var now = Date.now();
+        var itemsShouldBe = Math.floor(now - startTime) / 1000;
+
+        if (items.length < itemsShouldBe) {
+          createItem();
+        }
+      }
+
+      function createItem() {
+        var item = {
+          x: Math.floor(Math.random() * cansvasEl.width),
+          y: 0,
+          isFrozen: false,
+          lastUpdate: Date.now(),
+          speed: 150 + Math.floor(Math.random() * 100)
+        }
+
+        items.push(item);
+      }
+
+      function updateItems() {
+        var now = Date.now();
+        items.forEach(function (item, index) {
+          var updateDelta = (now - item.lastUpdate) / 1000;
+          var y = item.y + item.speed * updateDelta;
+
+          if (y < 0) {
+            items.splice(index, 1);
+          } else {
+            item.y = y;
+            item.lastUpdate = now;
+          }
+        });
+      }
+
+      setInterval(render, 10);
+
+    </script>
+</body>
+</html>
