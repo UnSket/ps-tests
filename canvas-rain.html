@@ -12,83 +12,140 @@
     </style>
 </head>
 <body>
-    <canvas id="canvas-layout" width="1000" height="1000"></canvas>
+    <canvas id="canvas-layout" width="1920" height="1080"></canvas>
     <script>
       var cansvasEl = document.querySelector('#canvas-layout');
       var ctx = cansvasEl.getContext("2d");
       var size = 20;
       var items = [];
-      var startTime = Date.now();
-      var drawCount = 0;
+      var lastUpdates = [];
       var rps = 0;
+      var gravity = 400;
 
       function render() {
-        console.log(items.length);
-        itemCreator();
         updateItems();
         drawItems();
         averageRps();
       }
 
       function averageRps() {
-        drawCount++;
-        rps = Math.floor(drawCount / ((Date.now() - startTime) / 1000));
+        lastUpdates.push(Date.now());
+        lastUpdates = lastUpdates.slice(lastUpdates.length - 40, 40);
+        var updateTime = lastUpdates[lastUpdates.length - 1] - lastUpdates[0];
+        rps = Math.floor(lastUpdates.length / (updateTime / 1000));
       }
 
       function drawItems() {
         ctx.clearRect(0, 0, cansvasEl.width, cansvasEl.height);
         items.forEach(function(item) {
           ctx.beginPath();
-          ctx.rect(item.x, item.y, size, size);
-          ctx.fillStyle = "#5286cf";
+          ctx.rect(item.position.x, item.position.y, size, size);
+          ctx.fillStyle = item.color;
           ctx.fill();
           ctx.closePath();
         })
 
-        ctx.beginPath();
-        ctx.font = "bold 16px Arial";
-        ctx.fillText('RPS:' + rps, 10, 20);
-        ctx.closePath();
-
+        drawInfoContainer();
+        drawRPS();
+        drawMemoryInfo();
       }
 
-      function itemCreator() {
-        var now = Date.now();
-        var itemsShouldBe = Math.floor(now - startTime) / 1000;
+      function drawInfoContainer() {
+        ctx.beginPath();
+        ctx.rect(0, 0, 300, 70);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+        ctx.closePath();
+      }
 
-        if (items.length < itemsShouldBe) {
-          createItem();
+      function drawRPS() {
+        ctx.beginPath();
+        ctx.font = "bold 20px Arial";
+        ctx.fillStyle = "#000";
+        ctx.fillText('RPS:' + rps + '  ITEMS:' + items.length, 10, 20);
+        ctx.closePath();
+      }
+
+      function drawMemoryInfo() {
+        if (!window.WM_devSettings) {
+          return;
         }
+        ctx.beginPath();
+        ctx.font = "bold 20px Arial";
+        ctx.fillStyle = "#000";
+        ctx.fillText(window.WM_devSettings.memoryInfo, 10, 50);
+        ctx.closePath();
+      }
+
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
       }
 
       function createItem() {
         var item = {
-          x: Math.floor(Math.random() * cansvasEl.width),
-          y: 0,
+          position: {
+            x: cansvasEl.width / 2,
+            y: cansvasEl.height,
+          },
           isFrozen: false,
           lastUpdate: Date.now(),
-          speed: 150 + Math.floor(Math.random() * 100)
+          speed: {
+            y: -(400 + Math.floor(Math.random() * 600)),
+            x: 300 - Math.floor(Math.random() * 600),
+          },
+          color: getRandomColor()
         }
 
-        items.push(item);
+        return item;
+      }
+
+      window.createItems = function (count) {
+        for(var i = 0; i < count; i++) {
+          items.push(createItem());
+        }
       }
 
       function updateItems() {
         var now = Date.now();
         items.forEach(function (item, index) {
           var updateDelta = (now - item.lastUpdate) / 1000;
-          var y = item.y + item.speed * updateDelta;
+          var y = item.position.y + item.speed.y * updateDelta;
+          var x = item.position.x + item.speed.x * updateDelta;
 
-          if (y < 0) {
-            items.splice(index, 1);
+          item.speed.y = item.speed.y + gravity * updateDelta;
+
+
+          if (y > cansvasEl.height || y < 0 || x < 0 || x > cansvasEl.width) {
+            // items.splice(index, 1);
+
+            // items[index] = createItem();
+
+            if (y > cansvasEl.height || y < 0) {
+                item.speed.y = -item.speed.y;
+
+                if (y > cansvasEl.height) {
+                  item.speed.y = item.speed.y * 0.9;
+                }
+            }
+
+            if (x < 0 || x > cansvasEl.width) {
+              item.speed.x = -item.speed.x;
+            }
           } else {
-            item.y = y;
+            item.position.y = y;
+            item.position.x = x;
             item.lastUpdate = now;
+            // item.speed.y = speedY;
           }
         });
       }
 
-      setInterval(render, 10);
+      setInterval(render, 0);
 
     </script>
 </body>
