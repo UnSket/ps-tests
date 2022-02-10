@@ -6,11 +6,15 @@
         .failed {
             color: red;
         }
+        .new {
+            color: blue;
+        }
     </style>
 </head>
 <body>
 <script>
-  var results = {};
+  var checkResults = {};
+  var newStyles = [];
   function printStyles() {
     var testDiv = window.document.createElement('div');
 
@@ -21,10 +25,27 @@
       propDiv.innerText = prop;
       propDiv.setAttribute('class', isExist ? 'success' : 'failed');
       window.document.body.appendChild(propDiv);
-      results[prop] = isExist;
+      checkResults[prop] = isExist;
     });
 
-    console.log(results);
+    console.log(checkResults);
+  }
+
+  function findNewStyles() {
+    var testDiv = window.document.createElement('div');
+    var currentStyles = Object.keys(testDiv.style);
+
+    newStyles = currentStyles.filter(style => defaultProps.indexOf(style) === !1);
+
+    newStyles.forEach(function(prop) {
+      var isExist = prop in testDiv.style;
+
+      var propDiv = window.document.createElement('div');
+      propDiv.innerText = prop;
+      propDiv.setAttribute('class', 'new');
+      window.document.body.appendChild(propDiv);
+      checkResults[prop] = isExist;
+    });
   }
 
   function testStyle(propName) {
@@ -610,6 +631,7 @@
     "zoom"
   ];
 
+  findNewStyles();
   printStyles();
 
 </script>
