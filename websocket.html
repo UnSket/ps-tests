@@ -1,0 +1,27 @@
+<head>
+</head>
+<body>
+<script>
+  function initWebsocketConnection() {
+    const socket = new WebSocket('ws://12c0-2a02-6b8-0-51e-1d99-8832-4249-7f7b.ngrok.io/echo');
+    socket.onmessage = (event) => {
+        console.log(event.data);
+    };
+
+    socket.onopen = () => {
+        console.log('Соединение установлено.');
+    };
+
+    socket.onerror = function (error) {
+        console.log(`Ошибка ${error.message}`);
+    };
+
+    window.stopSocket = () => socket.close();
+}
+
+window.startScoket = initWebsocketConnection;
+window.stopSocket = () => {};
+  
+  
+</script>
+</body>
