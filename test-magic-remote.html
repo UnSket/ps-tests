@@ -1,7 +1,7 @@
 <head>
     <style>
         body {
-            background: white;   
+            background: white;
         }
         .div {
             width: 300px;
@@ -26,46 +26,47 @@
   const secondDiv = document.getElementById('secondDiv');
   const outerDiv = document.getElementById('outerDiv');
 
-  document.addEventListener('click', (event) => {
+  document.addEventListener('click', function(event) {
     console.log('document click', event);
   });
 
-  document.addEventListener('keydown', (event) => {
+  document.addEventListener('keydown', function(event) {
     console.log('document keydown', event);
   });
 
-  document.body.addEventListener('click', (event) => {
+  document.body.addEventListener('click', function(event) {
     console.log('body click', event);
   });
 
-  document.body.addEventListener('keydown', (event) => {
+  document.body.addEventListener('keydown', function(event) {
     console.log('body keydown', event);
   });
 
 
-  firstDiv.addEventListener('click', (event) => {
+  firstDiv.addEventListener('click', function(event) {
     console.log('firstDiv click', event);
   });
 
-  firstDiv.addEventListener('keydown', (event) => {
+  firstDiv.addEventListener('keydown', function(event) {
     console.log('firstDiv keydown', event);
   });
 
-  secondDiv.addEventListener('click', (event) => {
+  secondDiv.addEventListener('click', function(event) {
     console.log('secondDiv click', event);
   });
 
-  secondDiv.addEventListener('keydown', (event) => {
+  secondDiv.addEventListener('keydown', function(event) {
     console.log('secondDiv keydown', event);
   });
 
-  outerDiv.addEventListener('click', (event) => {
+  outerDiv.addEventListener('click', function(event) {
     console.log('outerDiv click', event);
   });
 
-  outerDiv.addEventListener('keydown', (event) => {
+  outerDiv.addEventListener('keydown', function(event) {
     console.log('outerDiv keydown', event);
   });
 
 </script>
 </body>
+
