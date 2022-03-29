@@ -1,0 +1,42 @@
+<head></head>
+<body>
+
+<input placeholder="parentInput" id="parentSelector" />
+
+<iframe id="myFrame" width="500px" height="300px" srcdoc='<body><input id="inheritInput" placeholder="childInput"/><script>document.querySelector("#inheritInput")
+document.addEventListener("focus", (event) => {
+console.log("inherit window focus", event);
+}, {
+passive: true,
+capture: true
+});
+document.addEventListener("keydown", (event) => {
+console.log("inherit window keydown", event);
+}, {
+passive: true,
+capture: true
+});
+</script></body>'>
+</iframe>
+
+<script>
+  document.querySelector('#myFrame').focus();
+  document.querySelector('#myFrame').addEventListener('blur', () => {
+    console.log('frame blur')
+  });
+  document.querySelector('#myFrame').focus();
+  document.addEventListener('focus', (event) => {
+    console.log('parent window focus');
+  }, {
+    passive: true,
+    capture: true
+  });
+
+  document.addEventListener('keydown', (event) => {
+    console.log('parent window keydown');
+  }, {
+    passive: true,
+    capture: true
+  });
+</script>
+</body>
